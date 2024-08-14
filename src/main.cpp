@@ -75,7 +75,6 @@ int get_mac_and_ip(const char* interface, Mac* mac_addr, Ip* interface_ip) {
     return 0;
 }
 
-// Helper function to print MAC address
 void print_mac(const Mac& mac) {
     const uint8_t* mac_bytes = mac.data();
     printf("%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -124,8 +123,7 @@ int request_arp_for_sender_mac(pcap_t* handle, Mac* interface_mac, Mac* sender_m
 
         res_eth_packet = (struct EthHdr *)packet;
         res_arp_packet = (struct ArpHdr *)(packet + sizeof(*res_eth_packet));
-
-        // Print sender and target IP addresses in a readable format
+	    
         struct in_addr sender_ip_addr, target_ip_addr;
         sender_ip_addr.s_addr = htonl(res_arp_packet->sip());
         target_ip_addr.s_addr = htonl(res_arp_packet->tip());
@@ -141,7 +139,7 @@ int request_arp_for_sender_mac(pcap_t* handle, Mac* interface_mac, Mac* sender_m
             
             *sender_mac = res_arp_packet->smac(); 
 
-            // Mac 객체의 내부 데이터를 얻어오기 위해 data() 함수를 사용
+            // Mac 객체의 내부 데이터를 얻어오기 위해 data() 함수를 사용. Mac 헤더 수정 
             const uint8_t* mac_bytes = sender_mac->data();
             printf("[DEBUG] Sender MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
                 mac_bytes[0], mac_bytes[1], mac_bytes[2],
