@@ -178,7 +178,7 @@ int attack_ARP_table(pcap_t* handle, Mac* sender_mac, std::string sender_ip, Mac
 }
 
 int main(int argc, char* argv[]) {
-    if(argc / 2 != 0){
+    if(argc % 2 == 1){
 	    usage();
 	    return -1;
     }
